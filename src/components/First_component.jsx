@@ -18,19 +18,26 @@ return(
 }
 export default class First_component extends Component{
     state = {
-        articles: []
+        articles: [],
+        isLoading: false
     }
     async componentDidMount(){
+        this.setState({
+            isLoading: true
+        })
         const response = await axios.get('/search?query=react')
         this.setState({
-            articles: response.data.hits
+            articles: response.data.hits,
+            isLoading: false
         })
     }
     render(){
-        const {articles} = this.state;
+        const {articles, isLoading} = this.state;
         return(
             <>
-            <ArticleList articles={articles}/>
+            <div>
+            {isLoading ? <p>Loading</p> : <ArticleList articles={articles}/>}
+            </div>
             </>
         )
     }
